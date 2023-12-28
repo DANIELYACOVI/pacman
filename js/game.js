@@ -3,7 +3,7 @@
 const WALL = '&#8251;'
 const FOOD = '&middot;'
 const EMPTY = ' '
-const SUPERFOOD = '🍟'
+const SUPERFOOD = '🍭'
 const CHERRY = '🍒'
 
 const SUPERFOOD_GHOST_COLOR = 'BLUE'
@@ -23,29 +23,22 @@ var gBoard
 
 function init() {
 
+    gGame.score = 0
+    gGame.isOn = false
+    gGame.foodCount = 0
+
     gBoard = buildBoard()
+    gGame.foodCount  = 56
     createPacman(gBoard)
     createGhosts(gBoard)
     
     renderBoard(gBoard, '.board-container')
     gGame.isOn = true
 
-    gGame.foodCount = countTotalFood(gBoard)
+    console.log(gGame.foodCount);
     gCherryInterval = setInterval(addCherry, 15000)
 
     gSuperPowerMode = false
-}
-
-function countTotalFood(board) {
-    var count = 0
-    for (var i = 0; i < board.length; i++) {
-        for (var j = 0; j < board[i].length; j++) {
-            if (board[i][j] === FOOD) {
-                count++
-            }
-        }
-    }
-    return count
 }
 
 function buildBoard() {
@@ -115,11 +108,12 @@ function gameOver() {
     gGhosts = []
 }
 
-
 function displayGameOverModal() {
     const modalOverlay = document.getElementById('modalOverlay');
     const gameOverModal = document.getElementById('gameOverModal');
+    const gameOverText = document.getElementById('gameOverText');
     
+    gameOverText.innerText = gGame.foodCount === 0 ? 'You Win' : 'Game Over'
     const scoreSpan = gameOverModal.querySelector('.score-span');
     scoreSpan.textContent = `Your Score: ${gGame.score}`;
 
