@@ -11,7 +11,6 @@ function createPacman(board) {
         deg: 0
     }
     board[gPacman.location.i][gPacman.location.j] = PACMAN
-    gGame.foodCount--
 }
 
 
@@ -75,6 +74,8 @@ function movePacman(ev) {
         for (var i = 0; i < gGhosts.length; i++) {
             gGhosts[i].color = SUPERFOOD_GHOST_COLOR
         }
+
+        renderGhosts()
         
         gSuperPowerTimer = setTimeout(() => {
             endSuperPowerMode();
@@ -138,7 +139,9 @@ function eatGhost(location) {
 
 function checkGhostCellContent(ghost){
     if(ghost.currCellContent === FOOD){
-        updateScore(10)
+        updateScore(1)
+        gGame.foodCount--
+        checkVictory()
         ghost.currCellContent = EMPTY
     }
 }
@@ -153,4 +156,3 @@ function eatSuperFood() {
         checkVictory()
     }, 5000)
 }
-
